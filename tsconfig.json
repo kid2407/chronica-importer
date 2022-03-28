@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
         "types": [
-            "@league-of-foundry-developers/foundry-vtt-types"
+            "@league-of-foundry-developers/foundry-vtt-types/index-lenient"
         ],
         "moduleResolution": "node",
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "target": "ES6"
     }
 }

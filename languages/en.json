@@ -1,6 +1,7 @@
 {
     "chronica-importer": {
         "dialog": {
+            "defaultStatus": "Ready",
             "description": "Please choose a JSON file you exported from Chronica and tick the sections you would like to import below. Once everything is ready, click the \"Start Import\" button to start the import.",
             "fileLabel": "Choose File",
             "import": "Import?",
@@ -13,6 +14,15 @@
             "title": "Import Data from Chronica",
             "toggleAll": "Toggle All"
         },
-        "sidebar-button": "Import Chronica Data"
+        "sidebar-button": "Import Chronica Data",
+        "process": {
+            "error": {
+                "invalidFile": "The uploaded file is invalid",
+                "noFile": "You must choose a file to upload"
+            },
+            "loadingFile": "Loading File",
+            "noSectionSelected": "You must choose at least one section to import",
+            "parsingFile": "Parsing File"
+        }
     }
 }

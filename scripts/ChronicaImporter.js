@@ -26,6 +26,7 @@ export class ChronicaImporter extends FormApplication {
         let checkboxes = $('div#chronica-importer-dialog table input:checkbox')
         let checkboxCount = checkboxes.length
 
+        // noinspection JSCheckFunctionSignatures
         html.find("a#toggleAllSections").on("click", async (event) => {
             let table = $(event.target).closest("table")
             checkboxes.prop("checked", table.find("input:checkbox:checked").length !== checkboxCount)

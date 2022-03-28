@@ -1,1 +1,18 @@
-{}
+{
+    "chronica-importer": {
+        "dialog": {
+            "description": "Please choose a JSON file you exported from Chronica and tick the sections you would like to import below. Once everything is ready, click the \"Start Import\" button to start the import.",
+            "fileLabel": "Choose File",
+            "import": "Import?",
+            "section": "Section",
+            "sections": {
+                "npcs": "NPCs",
+                "places": "Locations"
+            },
+            "start-import": "Start Import",
+            "title": "Import Data from Chronica",
+            "toggleAll": "Toggle All"
+        },
+        "sidebar-button": "Import Chronica Data"
+    }
+}

@@ -1,0 +1,23 @@
+.chronica-importer .status, .chronica-importer .inputs {
+    display:               grid;
+    grid-template-columns: auto 1fr;
+    grid-gap:              15px;
+}
+
+.chronica-importer .status {
+    grid-gap: 5px;
+}
+
+.chronica-importer .status > span.statusText {
+    font-weight: bold;
+}
+
+.chronica-importer table tr > th, .chronica-importer table tr > td {
+    text-align: center;
+}
+
+.chronica-importer table tr > th:nth-of-type(2) {
+    width:       1px;
+    white-space: nowrap;
+    padding:     0.25em 10px;
+}

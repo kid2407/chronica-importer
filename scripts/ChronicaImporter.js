@@ -1,4 +1,27 @@
+import {SectionHandler} from "./SectionHandler.js"
+
 export class ChronicaImporter extends FormApplication {
+    static SECTIONS = {
+        ALL:       ["npcs", "places"],
+        NPCS:      "npcs",
+        LOCATIONS: "places"
+    }
+
+    /**
+     * A simple logging function.
+     *
+     * @param data
+     */
+    static log(data) {
+        if (typeof data === "string") {
+            console.log("Chronica-Importer | " + data)
+        }
+        else {
+            console.log("Chronica-Importer | ", data)
+        }
+    }
+
+    // noinspection JSCheckFunctionSignatures
     async _updateObject(event, formData) {
         return await this.performImport(formData)
     }
@@ -40,14 +63,8 @@ export class ChronicaImporter extends FormApplication {
      * @returns {Promise<void>}
      */
     async performImport(formData) {
-        let allowed = ["npcs", "places"]
-        const sections = Object.keys(formData)
-            .filter(key => allowed.includes(key) && formData[key] === true)
-            .reduce((obj, key) => {
-                obj[key] = formData[key];
-                return obj;
-            }, {});
-        if (Object.keys(sections).length === 0) {
+        const sections = Object.keys(formData).filter(key => ChronicaImporter.SECTIONS.ALL.includes(key) && formData[key] === true)
+        if (sections.length === 0) {
             ui.notifications.error(game.i18n.localize("chronica-importer.process.noSectionSelected"))
             this.updateStatus()
             return
@@ -63,10 +80,11 @@ export class ChronicaImporter extends FormApplication {
             reader.onload = async function (evt) {
                 try {
                     // noinspection JSCheckFunctionSignatures
-                    /** @type {ImportedData} json */
-                    const json = JSON.parse(evt.target.result)
-                    console.log(json)
+                    /** @type {ImportedData} data */
+                    const data = JSON.parse(evt.target.result)
                     instance.updateStatus(game.i18n.localize("chronica-importer.process.parsingFile"), true)
+                    const sectionHandler = new SectionHandler(instance)
+                    await sectionHandler.handleData(data, sections)
                 } catch (exception) {
                     ui.notifications.error(game.i18n.localize("chronica-importer.process.error.invalidFile"), {permanent: true})
                     instance.updateStatus()
@@ -76,7 +94,8 @@ export class ChronicaImporter extends FormApplication {
                 ui.notifications.error(game.i18n.localize("chronica-importer.process.error.invalidFile"), {permanent: true})
                 instance.updateStatus()
             }
-        } else {
+        }
+        else {
             ui.notifications.error(game.i18n.localize("chronica-importer.process.error.noFile"), {permanent: true})
             instance.updateStatus()
         }

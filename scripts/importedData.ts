@@ -35,6 +35,44 @@ export interface NPC {
     "disposition": string
 }
 
+export interface CharStat {
+    char_stat_id: number
+    character_id: number
+    created_at: string
+    id: number
+    updated_at: string
+    value: []
+}
+
+export interface Character {
+    ability_ids: number[],
+    alignment: string,
+    campaign_id: number,
+    char_flairs: [],
+    char_stat_data: CharStat[],
+    created_at: string,
+    dead: boolean,
+    description: string,
+    disposition: string,
+    faction: string,
+    gender: string,
+    gender_write_in: string,
+    gm_secrets: string,
+    id: number,
+    konnections: [],
+    name: string,
+    notes: string,
+    npc_class: string,
+    pc_secret: boolean,
+    personal_secrets: string,
+    profile_template_id: number,
+    race: string,
+    special: string,
+    status: string,
+    title: string,
+    updated_at: string
+}
+
 export interface Location {
     "id": number
     "campaign_id": number

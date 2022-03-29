@@ -1,43 +1,67 @@
+export interface Ability {
+    ability_type_id: number,
+    abilitytag_list: [],
+    created_at: string,
+    id: number,
+    long_description: string,
+    name: string,
+    position: number,
+    short_description: string,
+    updated_at: string
+}
+
+export interface AbilityType {
+    abilities: Ability[],
+    ability_type_folder_id: number,
+    campaign_id: number,
+    created_at: string,
+    id: number,
+    name: string,
+    pc_secret: boolean,
+    position: number,
+    updated_at: string
+}
+
 export interface NPC {
-    "id": Number
-    "campaign_id": Number
-    "name": String,
-    "description": String,
-    "notes": String,
-    "entity_type": String,
-    "created_at": String,
-    "updated_at": String,
-    "ability_ids": Number[],
-    "disposition": String
+    "id": number
+    "campaign_id": number
+    "name": string,
+    "description": string,
+    "notes": string,
+    "entity_type": string,
+    "created_at": string,
+    "updated_at": string,
+    "ability_ids": number[],
+    "disposition": string
 }
 
 export interface Location {
-    "id": Number
-    "campaign_id": Number
-    "name": String,
-    "description": String,
-    "notes": String,
-    "gm_secrets": String,
-    "pc_secret": String,
-    "location": String,
-    "created_at": String,
-    "updated_at": String,
+    "id": number
+    "campaign_id": number
+    "name": string,
+    "description": string,
+    "notes": string,
+    "gm_secrets": string,
+    "pc_secret": string,
+    "location": string,
+    "created_at": string,
+    "updated_at": string,
     "anchestry": undefined,
     "position": undefined
 }
 
 export interface ImportedData {
     "campaign": {
-        "id": Number
-        "name": String,
-        "about": String,
-        "created_at": String,
-        "updated_at": String,
-        "gm_secrets": String,
-        "game_system": String,
-        "party_wealth": String,
-        "players_count": Number
-        "ability_types": [],
+        "id": number
+        "name": string,
+        "about": string,
+        "created_at": string,
+        "updated_at": string,
+        "gm_secrets": string,
+        "game_system": string,
+        "party_wealth": string,
+        "players_count": number
+        "ability_types": AbilityType[],
         "char_stat_types": [],
         "characters": [],
         "cities": [],
@@ -54,5 +78,5 @@ export interface ImportedData {
         "plots": [],
         "quests": []
     },
-    "export_created_at": String
+    "export_created_at": string
 }

@@ -23,6 +23,21 @@ export class SectionHandler {
      * @returns {Promise<void>}
      */
     async handleData(data, sections) {
+        let campaignFolders = game.folders.contents.filter(/** @param {Folder} folder */folder => folder.getFlag("chronica-importer", "campaign-id") === data.campaign.id)
+        if (campaignFolders.length === 0) {
+            this.campaignFolder = await Folder.create({
+                name : data.campaign.name,
+                type : "JournalEntry",
+                flags: {
+                    "chronica-importer": {
+                        "campaign-id": data.campaign.id
+                    }
+                }
+            })
+        } else {
+            this.campaignFolder = campaignFolders[0]
+        }
+
         const transformedAbilities = await this.transformAbilities(data.campaign.ability_types)
         await SectionHandler.asyncForEach(sections, async section => {
             switch (section) {
@@ -69,6 +84,24 @@ export class SectionHandler {
         let current = 1
         let count = npcs.length
         this.ci.updateStatus(`Handling NPCs (1 / ${count})`, true)
+
+        let npcFolder
+        let npcFolders = game.folders.contents.filter(/** @param {Folder} folder */folder => folder.type === "JournalEntry" && folder.getFlag("chronica-importer", "npc-folder") !== undefined)
+        if (npcFolders.length === 0) {
+            npcFolder = await Folder.create({
+                name  : "NPCs",
+                type  : "JournalEntry",
+                parent: this.campaignFolder.id,
+                flags : {
+                    "chronica-importer": {
+                        "npc-folder": true
+                    }
+                }
+            })
+        } else {
+            npcFolder = npcFolders[0]
+        }
+
         await SectionHandler.asyncForEach(npcs, /** @param {NPC} npc */ async npc => {
             ChronicaImporter.log(`Handling NPCs (${current} / ${count})`)
             this.ci.updateStatus(`Handling NPCs (${current} / ${count})`, true)
@@ -93,23 +126,69 @@ export class SectionHandler {
                         "id"         : npc.id,
                         "updated_at" : npc.updated_at
                     }
-                }
+                },
+                folder : npcFolder.id
             }
             npcEntriesData.push(journalData)
             current++
         })
+
         await JournalEntry.createDocuments(npcEntriesData)
         ChronicaImporter.log("Finished handling NPCs")
         this.ci.updateStatus("Finished handling NPCs!")
     }
 
     /**
-     * @param {Location[]} places
+     * @param {Place[]} locations
      * @returns {Promise<void>}
      */
-    async parsePlaces(places) {
-        ChronicaImporter.log("Handling Locations")
-        this.ci.updateStatus(`Handling Locations (0 / ${places.length})`)
-        ChronicaImporter.log("Finished handling Locations")
+    async parsePlaces(locations) {
+        ChronicaImporter.log("Handling Places")
+        let placesData = []
+        let current = 1
+        let count = locations.length
+
+        let placesFolder
+        let placesFolders = game.folders.contents.filter(/** @param {Folder} folder */folder => folder.type === "JournalEntry" && folder.getFlag("chronica-importer", "location-folder") !== undefined)
+        if (placesFolders.length === 0) {
+            placesFolder = await Folder.create({
+                name  : "Places",
+                type  : "JournalEntry",
+                parent: this.campaignFolder.id,
+                flags : {
+                    "chronica-importer": {
+                        "location-folder": true
+                    }
+                }
+            })
+        } else {
+            placesFolder = placesFolders[0]
+        }
+
+        await SectionHandler.asyncForEach(locations, /** @param {Place} place */ async place => {
+            ChronicaImporter.log(`Handling Places (${current} / ${count})`)
+            this.ci.updateStatus(`Handling Places (${current} / ${count})`, true)
+
+            let html = await renderTemplate("modules/chronica-importer/templates/sections/place.hbs", {place: place})
+
+            let journalData = {
+                name   : place.name,
+                content: html,
+                flags  : {
+                    "chronica-importer": {
+                        "campaign_id": place.campaign_id,
+                        "id"         : place.id,
+                        "updated_at" : place.updated_at
+                    }
+                },
+                folder : placesFolder.id
+            }
+            placesData.push(journalData)
+            current++
+        })
+
+        await JournalEntry.createDocuments(placesData)
+
+        ChronicaImporter.log("Finished handling Places")
     }
 }

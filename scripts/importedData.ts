@@ -73,7 +73,7 @@ export interface Character {
     updated_at: string
 }
 
-export interface Location {
+export interface Place {
     "id": number
     "campaign_id": number
     "name": string,
@@ -111,7 +111,7 @@ export interface ImportedData {
         "journal_posts": [],
         "kinships": [],
         "maps": [],
-        "places": Location[],
+        "places": Place[],
         "players": [],
         "plots": [],
         "quests": []

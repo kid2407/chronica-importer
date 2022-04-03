@@ -22,7 +22,22 @@
             },
             "loadingFile": "Loading File",
             "noSectionSelected": "You must choose at least one section to import",
-            "parsingFile": "Parsing File"
+            "parsingFile": "Parsing File",
+            "sections": {
+                "npc": {
+                    "description": "Description",
+                    "disposition": "Disposition",
+                    "notes": "Notes",
+                    "entity-type": "Entity type",
+                    "abilities": "Abilities"
+                },
+                "place": {
+                    "description": "Description",
+                    "notes": "Notes",
+                    "location": "Location",
+                    "position": "Position"
+                }
+            }
         }
     }
 }

@@ -2,22 +2,31 @@ import {SectionHandler} from "./SectionHandler.js"
 
 export class ChronicaImporter extends FormApplication {
     static SECTIONS = {
-        ALL:       ["npcs", "places"],
-        NPCS:      "npcs",
-        LOCATIONS: "places"
+        ALL       : ["npcs", "places", "named-npcs"],
+        NPCS      : "npcs",
+        NAMED_NPCS: "named-npcs",
+        LOCATIONS : "places"
     }
 
     /**
      * A simple logging function.
      *
      * @param data
+     * @param {boolean} isError
      */
-    static log(data) {
+    static log(data, isError = false) {
         if (typeof data === "string") {
-            console.log("Chronica-Importer | " + data)
-        }
-        else {
-            console.log("Chronica-Importer | ", data)
+            if (isError) {
+                console.error("Chronica-Importer | " + data)
+            } else {
+                console.log("Chronica-Importer | " + data)
+            }
+        } else {
+            if (isError) {
+                console.error("Chronica-Importer | ", data)
+            } else {
+                console.log("Chronica-Importer | ", data)
+            }
         }
     }
 
@@ -87,15 +96,16 @@ export class ChronicaImporter extends FormApplication {
                     await sectionHandler.handleData(data, sections)
                 } catch (exception) {
                     ui.notifications.error(game.i18n.localize("chronica-importer.process.error.invalidFile"), {permanent: true})
+                    ChronicaImporter.log(exception, true)
                     instance.updateStatus()
                 }
             }
             reader.onerror = function () {
                 ui.notifications.error(game.i18n.localize("chronica-importer.process.error.invalidFile"), {permanent: true})
+                ChronicaImporter.log(reader.error, true)
                 instance.updateStatus()
             }
-        }
-        else {
+        } else {
             ui.notifications.error(game.i18n.localize("chronica-importer.process.error.noFile"), {permanent: true})
             instance.updateStatus()
         }

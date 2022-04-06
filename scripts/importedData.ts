@@ -101,7 +101,7 @@ export interface ImportedData {
         "players_count": number
         "ability_types": AbilityType[],
         "char_stat_types": [],
-        "characters": [],
+        "characters": Character[],
         "cities": [],
         "city_stats": [],
         "encounters": [],

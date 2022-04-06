@@ -44,15 +44,20 @@ export class SectionHandler {
                 case ChronicaImporter.SECTIONS.NPCS:
                     let npcs = data.campaign.entities
                     if (npcs.length > 0) {
-                        await this.parseNPCs(data.campaign.entities, transformedAbilities)
+                        await this.parseNPCs(npcs, transformedAbilities)
                     }
                     break
                 case ChronicaImporter.SECTIONS.LOCATIONS:
-                    let locations = data.campaign.places
-                    if (locations.length > 0) {
-                        await this.parsePlaces(data.campaign.places)
+                    let places = data.campaign.places
+                    if (places.length > 0) {
+                        await this.parsePlaces(places)
                     }
                     break
+                case ChronicaImporter.SECTIONS.NAMED_NPCS:
+                    let namedNPCs = data.campaign.characters.filter(p => p.npc_class.length > 0)
+                    if (namedNPCs.length > 0) {
+                        await this.parseNamedNPCs(namedNPCs)
+                    }
             }
         })
 
@@ -190,5 +195,59 @@ export class SectionHandler {
         await JournalEntry.createDocuments(placesData)
 
         ChronicaImporter.log("Finished handling Places")
+    }
+
+    /**
+     * @param {Character[]} namedNPCs
+     * @returns {Promise<void>}
+     */
+    async parseNamedNPCs(namedNPCs) {
+        ChronicaImporter.log("Handling Named NPCs")
+        let namedNPCsData = []
+        let current = 1
+        let count = namedNPCs.length
+
+        let namedNPCsFolder
+        let namedNPCsFolders = game.folders.contents.filter(/** @param {Folder} folder */folder => folder.type === "JournalEntry" && folder.getFlag("chronica-importer", "named-npcs-folder") !== undefined)
+        if (namedNPCsFolders.length === 0) {
+            namedNPCsFolder = await Folder.create({
+                name  : "Named NPCs",
+                type  : "JournalEntry",
+                parent: this.campaignFolder.id,
+                flags : {
+                    "chronica-importer": {
+                        "named-npcs-folder": true
+                    }
+                }
+            })
+        } else {
+            namedNPCsFolder = namedNPCsFolders[0]
+        }
+
+        await SectionHandler.asyncForEach(namedNPCs, /** @param {Character} namedNPC */ async namedNPC => {
+            ChronicaImporter.log(`Handling Named NPCs (${current} / ${count})`)
+            this.ci.updateStatus(`Handling Named NPCs (${current} / ${count})`, true)
+
+            let html = await renderTemplate("modules/chronica-importer/templates/sections/named-npc.hbs", {namedNPC: namedNPC})
+
+            let journalData = {
+                name   : namedNPC.name,
+                content: html,
+                flags  : {
+                    "chronica-importer": {
+                        "campaign_id": namedNPC.campaign_id,
+                        "id"         : namedNPC.id,
+                        "updated_at" : namedNPC.updated_at
+                    }
+                },
+                folder : namedNPCsFolder.id
+            }
+            namedNPCsData.push(journalData)
+            current++
+        })
+
+        await JournalEntry.createDocuments(namedNPCsData)
+
+        ChronicaImporter.log("Finished handling Named NPCs")
     }
 }

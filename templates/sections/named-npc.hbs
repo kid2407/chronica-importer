@@ -1,0 +1,48 @@
+<h2>{{ localize "chronica-importer.process.sections.named-npc.description"}}</h2>
+{{{ namedNPC.description }}}
+<p>&nbsp;</p>
+<table>
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ localize "chronica-importer.process.sections.named-npc.status"}}</td>
+        <td>{{#if namedNPC.status }}{{ namedNPC.status}}{{else}}---{{/if}}</td>
+    </tr>
+    <tr>
+        <td>{{ localize "chronica-importer.process.sections.named-npc.title"}}</td>
+        <td>{{#if namedNPC.title }}{{ namedNPC.title}}{{else}}---{{/if}}</td>
+    </tr>
+    <tr>
+        <td>{{ localize "chronica-importer.process.sections.named-npc.gender"}}</td>
+        <td>{{#if namedNPC.gender }}{{ namedNPC.gender}}{{else}}---{{/if}}</td>
+    </tr>
+    <tr>
+        <td>{{ localize "chronica-importer.process.sections.named-npc.race"}}</td>
+        <td>{{#if namedNPC.race }}{{ namedNPC.race}}{{else}}---{{/if}}</td>
+    </tr>
+    <tr>
+        <td>{{ localize "chronica-importer.process.sections.named-npc.class"}}</td>
+        <td>{{#if namedNPC.npc_class }}{{ namedNPC.npc_class}}{{else}}---{{/if}}</td>
+    </tr>
+    <tr>
+        <td>{{ localize "chronica-importer.process.sections.named-npc.alignment"}}</td>
+        <td>{{#if namedNPC.alignment }}{{ namedNPC.alignment}}{{else}}---{{/if}}</td>
+    </tr>
+    </tbody>
+</table>
+<h2>{{ localize "chronica-importer.process.sections.named-npc.disposition"}}</h2>
+<span>{{ namedNPC.disposition }}</span>
+<p>&nbsp;</p>
+<h2>{{ localize "chronica-importer.process.sections.named-npc.faction"}}</h2>
+<span>{{ namedNPC.faction }}</span>
+<p>&nbsp;</p>
+<h2>{{ localize "chronica-importer.process.sections.named-npc.notes"}}</h2>
+{{{ namedNPC.notes }}}
+<p>&nbsp;</p>
+<h2>{{ localize "chronica-importer.process.sections.named-npc.gm_secrets"}}</h2>
+{{{ namedNPC.gm_secrets }}}

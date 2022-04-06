@@ -8,7 +8,8 @@
             "section": "Section",
             "sections": {
                 "npcs": "NPCs",
-                "places": "Locations"
+                "places": "Locations",
+                "named-npcs": "Named NPCs"
             },
             "start-import": "Start Import",
             "title": "Import Data from Chronica",
@@ -36,6 +37,19 @@
                     "notes": "Notes",
                     "location": "Location",
                     "position": "Position"
+                },
+                "named-npc": {
+                    "description": "Description",
+                    "disposition": "Disposition",
+                    "notes": "Notes",
+                    "alignment": "Alignment",
+                    "faction": "Faction",
+                    "gender": "Gender",
+                    "gm_secrets": "GM Secrets",
+                    "status": "Status",
+                    "title": "Title",
+                    "race": "Race",
+                    "class": "Class"
                 }
             }
         }

@@ -2,9 +2,9 @@
   "name": "chronica-importer",
   "title": "Chronica Importer",
   "description": "A module allowing you to import your exported data from https://www.chronica.ventures/ into Foundry.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "library": "false",
-  "manifestPlusVersion": "1.0.0",
+  "manifestPlusVersion": "1.1.0",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "authors": [
